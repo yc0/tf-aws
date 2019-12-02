@@ -57,6 +57,8 @@ module "eks" {
   subnets      = module.vpc.public_subnets
   vpc_id       = module.vpc.vpc_id
 #   cluster_endpoint_private_access = true  
+  manage_aws_auth = true
+  map_users    = var.map_users
   worker_groups_launch_template = [
     {
       name                    = "spot-1"
@@ -66,6 +68,7 @@ module "eks" {
       asg_desired_capacity    = 1
       kubelet_extra_args      = "--node-labels=kubernetes.io/lifecycle=spot"
       public_ip               = true
+      autoscaling_enabled = true
     },
   ]
 }
